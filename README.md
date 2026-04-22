@@ -39,7 +39,7 @@ Flask App
 
 ---
 ##  System Design
-
+---
 User → Flask App
     │
     ├── PostgreSQL (products, orders)
