@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Commerce System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 200px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background: #34495e;
+            color: white;
+            padding: 8px;
+        }
+
+        td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Hybrid E-Commerce System</h1>
+
+<div class="container">
+
+    <!-- ADD PRODUCT -->
+    <div class="card">
+        <h2>Add Product</h2>
+        <form action="/add_product" method="post">
+            <input name="name" placeholder="Name">
+            <input name="price" placeholder="Price">
+            <input name="stock" placeholder="Stock">
+            <input name="category" placeholder="Category">
+            <input name="description" placeholder="Description">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <!-- PLACE ORDER -->
+    <div class="card">
+        <h2>Place Order</h2>
+        <form action="/place_order" method="post">
+            <input name="user_id" placeholder="User ID">
+            <input name="product_id" placeholder="Product ID">
+            <input name="quantity" placeholder="Quantity">
+            <button type="submit">Order</button>
+        </form>
+    </div>
+
+    <!-- VIEW PRODUCT -->
+    <div class="card">
+        <h2>View Product</h2>
+        <form action="/view_product" method="post">
+            <input name="product_id" placeholder="Product ID">
+            <button type="submit">View</button>
+        </form>
+    </div>
+
+    <!-- ADD REVIEW -->
+    <div class="card">
+        <h2>Add Review</h2>
+        <form action="/add_review" method="post">
+            <input name="product_id" placeholder="Product ID">
+            <input name="user_id" placeholder="User ID">
+            <input name="rating" placeholder="Rating">
+            <input name="comment" placeholder="Comment">
+            <button type="submit">Add Review</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
