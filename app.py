@@ -121,14 +121,26 @@ def view_product():
     if not product:
         return "<h3 style='color:red;'>Product not found</h3>"
 
-    details = mongo_db.product_details.find_one({"product_id": product_id}) or {}
+    details = mongo_db.product_details.find_one({"product_id": product_id})
+    reviews_html = ""
+
+    for r in details.get("reviews", []):
+        reviews_html += f"<li>User {r['user_id']} - Rating {r['rating']} - {r['comment']}</li>"
+
+    if not details:
+        details = {"description": "No description available"}
 
     return f"""
     <div style='padding:20px;'>
-        <h2>{product[0]}</h2>
-        <p><b>Price:</b> {product[1]}</p>
-        <p><b>Stock:</b> {product[2]}</p>
-        <p><b>Description:</b> {details.get('description','')}</p>
+         <h2>{product[0]}</h2>
+         <p><b>Price:</b> {product[1]}</p>
+         <p><b>Stock:</b> {product[2]}</p>
+         <p><b>Description:</b> {details.get('description','')}</p>
+
+         <h3>Reviews:</h3>
+         <ul>
+            {reviews_html}
+         </ul>
     </div>
     """
 
@@ -143,13 +155,16 @@ def add_review():
 
     mongo_db.product_details.update_one(
         {"product_id": product_id},
-        {"$push": {
-            "reviews": {
-                "user_id": user_id,
-                "rating": rating,
-                "comment": comment
+        {
+            "$push": {
+                "reviews": {
+                    "user_id": user_id,
+                    "rating": rating,
+                    "comment": comment
+                }
             }
-        }}
+        },
+        upsert=True
     )
 
     return "<h3 style='color:green;'>✔ Review Added</h3>"
