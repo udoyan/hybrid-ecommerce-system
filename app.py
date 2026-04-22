@@ -121,7 +121,7 @@ def view_product():
     if not product:
         return "<h3 style='color:red;'>Product not found</h3>"
 
-    details = mongo_db.product_details.find_one({"product_id": product_id})
+    details = mongo_db.product_details.find_one({"product_id": product_id}) or {}
 
     return f"""
     <div style='padding:20px;'>
