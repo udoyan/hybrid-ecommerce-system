@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 import psycopg2
 from pymongo import MongoClient
 from datetime import datetime
@@ -7,6 +7,7 @@ from datetime import datetime
 from config import POSTGRES_CONFIG, MONGO_URI, MONGO_DB
 
 app = Flask(__name__)
+app.secret_key = "secret123"
 
 # =========================
 # DATABASE CONNECTIONS
@@ -49,7 +50,8 @@ def add_product():
         "reviews": []
     })
 
-    return f"<h3 style='color:green;'>✔ Product Added (ID: {product_id})</h3>"
+    flash(f"✔ Product Added Successfully (ID: {product_id})", "success")
+    return redirect(url_for("home"))
 
 
 # PLACE ORDER

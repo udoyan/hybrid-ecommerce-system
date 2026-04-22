@@ -89,12 +89,30 @@
 
 <h1>Hybrid E-Commerce System</h1>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div style="
+          width: 90%;
+          margin: 15px auto;
+          padding: 12px;
+          background: #d4edda;
+          color: #155724;
+          border-radius: 5px;
+          font-weight: bold;
+      ">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 <div class="container">
 
     <!-- ADD PRODUCT -->
     <div class="card">
         <h2>Add Product</h2>
-        <form action="/add_product" method="post">
+        <form action="/add_product" method="post" onsubmit="setTimeout(() => this.reset(), 100);">
             <input name="name" placeholder="Name">
             <input name="price" placeholder="Price">
             <input name="stock" placeholder="Stock">
@@ -107,7 +125,7 @@
     <!-- PLACE ORDER -->
     <div class="card">
         <h2>Place Order</h2>
-        <form action="/place_order" method="post">
+        <form action="/place_order" method="post" onsubmit="setTimeout(() => this.reset(), 100);">
             <input name="user_id" placeholder="User ID">
             <input name="product_id" placeholder="Product ID">
             <input name="quantity" placeholder="Quantity">
@@ -118,7 +136,7 @@
     <!-- VIEW PRODUCT -->
     <div class="card">
         <h2>View Product</h2>
-        <form action="/view_product" method="post">
+        <form action="/view_product" method="post" onsubmit="setTimeout(() => this.reset(), 100);">
             <input name="product_id" placeholder="Product ID">
             <button type="submit">View</button>
         </form>
@@ -127,7 +145,7 @@
     <!-- ADD REVIEW -->
     <div class="card">
         <h2>Add Review</h2>
-        <form action="/add_review" method="post">
+        <form action="/add_review" method="post" onsubmit="setTimeout(() => this.reset(), 100);">
             <input name="product_id" placeholder="Product ID">
             <input name="user_id" placeholder="User ID">
             <input name="rating" placeholder="Rating">
