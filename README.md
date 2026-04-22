@@ -30,6 +30,23 @@ Flask App
 
 ---
 
+##  Project Workflow
+
+1. User adds product → stored in PostgreSQL + MongoDB
+2. User places order → SQL transaction updates stock
+3. Activity is logged → MongoDB
+4. User views product → data fetched from both databases
+
+---
+##  System Design
+
+User → Flask App
+    │
+    ├── PostgreSQL (products, orders)
+    └── MongoDB (reviews, activity logs)
+
+---
+
 ##  Setup Instructions
 
 ### 1. Start MongoDB (Docker)
