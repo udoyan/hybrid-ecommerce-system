@@ -39,13 +39,11 @@ Flask App
 
 ---
 ##  System Design
----
-User → Flask App
-    │
-    ├── PostgreSQL (products, orders)
-    └── MongoDB (reviews, activity logs)
 
----
+- User interacts with Flask App  
+- Flask connects to:
+  - PostgreSQL → structured data (orders, products)  
+  - MongoDB → flexible data (reviews, logs)
 
 ---
 
