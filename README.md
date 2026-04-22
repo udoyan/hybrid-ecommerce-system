@@ -47,6 +47,8 @@ User → Flask App
 
 ---
 
+---
+
 ##  Setup Instructions
 
 ### 1. Start MongoDB (Docker)
