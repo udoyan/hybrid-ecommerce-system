@@ -20,6 +20,14 @@ mongo_client = MongoClient(MONGO_URI)
 mongo_db = mongo_client[MONGO_DB]
 
 # =========================
+# HELPER FUNCTION (NEW)
+# =========================
+def get_data():
+    if request.is_json:
+        return request.get_json()
+    return request.form
+
+# =========================
 # ROUTES
 # =========================
 
@@ -31,11 +39,13 @@ def home():
 # ADD PRODUCT
 @app.route("/add_product", methods=["POST"])
 def add_product():
-    name = request.form["name"]
-    price = float(request.form["price"])
-    stock = int(request.form["stock"])
-    category = request.form["category"]
-    description = request.form["description"]
+    data = get_data()
+
+    name = data["name"]
+    price = float(data["price"])
+    stock = int(data["stock"])
+    category = data["category"]
+    description = data["description"]
 
     pg_cursor.execute(
         "INSERT INTO products (name, price, stock_quantity, category) VALUES (%s,%s,%s,%s) RETURNING id",
@@ -57,9 +67,11 @@ def add_product():
 # PLACE ORDER
 @app.route("/place_order", methods=["POST"])
 def place_order():
-    user_id = int(request.form["user_id"])
-    product_id = int(request.form["product_id"])
-    quantity = int(request.form["quantity"])
+    data = get_data()
+
+    user_id = int(data["user_id"])
+    product_id = int(data["product_id"])
+    quantity = int(data["quantity"])
 
     pg_cursor.execute(
         "SELECT stock_quantity, price FROM products WHERE id=%s",
@@ -110,7 +122,9 @@ def place_order():
 # VIEW PRODUCT
 @app.route("/view_product", methods=["POST"])
 def view_product():
-    product_id = int(request.form["product_id"])
+    data = get_data()
+
+    product_id = int(data["product_id"])
 
     pg_cursor.execute(
         "SELECT name, price, stock_quantity FROM products WHERE id=%s",
@@ -124,10 +138,10 @@ def view_product():
     details = mongo_db.product_details.find_one({"product_id": product_id})
     reviews_html = ""
 
-    for r in details.get("reviews", []):
-        reviews_html += f"<li>User {r['user_id']} - Rating {r['rating']} - {r['comment']}</li>"
-
-    if not details:
+    if details:
+        for r in details.get("reviews", []):
+            reviews_html += f"<li>User {r['user_id']} - Rating {r['rating']} - {r['comment']}</li>"
+    else:
         details = {"description": "No description available"}
 
     return f"""
@@ -148,10 +162,12 @@ def view_product():
 # ADD REVIEW
 @app.route("/add_review", methods=["POST"])
 def add_review():
-    product_id = int(request.form["product_id"])
-    user_id = int(request.form["user_id"])
-    rating = int(request.form["rating"])
-    comment = request.form["comment"]
+    data = get_data()
+
+    product_id = int(data["product_id"])
+    user_id = int(data["user_id"])
+    rating = int(data["rating"])
+    comment = data["comment"]
 
     mongo_db.product_details.update_one(
         {"product_id": product_id},
